@@ -2,6 +2,7 @@
    Figure out : how to switch tasks
 */
 
+#include "scheduler.hpp"
 #include <chrono>
 #include <functional>
 #include <iostream>
@@ -9,7 +10,6 @@
 #include <thread>
 #include <utility>
 #include <vector>
-
 using Task = std::function<void()>;
 
 class ScheduledTask {
