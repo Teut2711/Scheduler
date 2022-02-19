@@ -40,6 +40,6 @@ public:
   
 };
 
-extern Scheduler scheduler;
+//extern Scheduler scheduler;
 
 #endif

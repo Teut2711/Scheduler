@@ -1,6 +1,8 @@
 #include "scheduler.hpp"
 #include <iostream>
 
+Scheduler scheduler;
+
 void countdown(int n) {
   if (n != 0) {
     std::cout << "Count down:" << n << std::endl;
