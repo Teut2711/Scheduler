@@ -1,7 +1,9 @@
-#include "scheduler.cpp"
+#include "scheduler.hpp"
+#include<iostream>
 #include <queue>
 
 class AsyncQueue {
+  std::queue<int> q;
 
 public:
   void put(int n) { q.push(n); }

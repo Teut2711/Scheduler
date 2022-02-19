@@ -1,6 +1,8 @@
+#ifndef SCHEDULER_HPP // added include guards
+#define SCHEDULER_HPP 
+
 #include <chrono>
 #include <functional>
-#include <iostream>
 #include <queue>
 #include <thread>
 #include <utility>
@@ -12,11 +14,12 @@ class ScheduledTask {
 public:
   Task task;
   std::chrono::time_point<std::chrono::high_resolution_clock> runAt;
-  ScheduledTask();
-
+  ScheduledTask(
+      Task task,
+      std::chrono::time_point<std::chrono::high_resolution_clock> runAt);
 };
 
-auto cmp = [](ScheduledTask const &a, ScheduledTask const &b) {
+inline auto cmp = [](ScheduledTask const &a, ScheduledTask const &b) {
   return a.runAt > b.runAt;
 };
 
@@ -39,3 +42,4 @@ public:
 
 extern Scheduler scheduler;
 
+#endif
