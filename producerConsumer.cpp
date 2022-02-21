@@ -1,52 +1,51 @@
-#include "scheduler.hpp"
-#include<iostream>
-#include <queue>
+#include "producerConsumer.hpp"
 
-class AsyncQueue {
-  std::queue<int> q;
+Scheduler scheduler;
 
-public:
-  void put(int n) { q.push(n); }
-  void get() {}
+void AsyncQueue::put(int n) {
 
-private:
-  std::queue<int> q;
-};
-
-class Producer {
-
-public:
-  Producer(AsyncQueue &q, int count) {
-    this->q = q;
-    this->count = count;
-  }
-  void run() { run(1); }
-
-private:
-  AsyncQueue q;
-  int count;
-  void run(int n) {
-    if (n < count) {
-      std::cout << "Producing " << n;
-      q.put(n);
-      scheduler.callLater([=]() { run(n + 1); }, 1);
-    } else {
-      std::cout << "Producer done" << n;
-    }
+  items.push(n);
+  if (!waiting.empty()){
+    scheduler.callSoon(waiting.front());
+    waiting.pop();
   }
 };
 
-class Consumer {
-  AsyncQueue q;
+void AsyncQueue::get(std::function<void(int)> callback) {
+  if (!items.empty()) {
+    callback(items.front());
+    items.pop();
+  } else {
+    waiting.push(callback);
+  }
+}
 
-  Consumer(AsyncQueue q) { this->q = q; }
-  void run() {
-   while(n! =0){
-       
-   }
+Producer::Producer(AsyncQueue &q, int count) {
+  this->q = q;
+  this->count = count;
+}
 
+void Producer::run() { run(1); }
 
+void Producer::run(int n) {
+  if (n < count) {
+    std::cout << "Producing " << n;
+    q.put(n);
+    scheduler.callLater([=]() { run(n + 1); }, 1);
+  } else {
+    std::cout << "Producer done :" << n;
   }
 };
 
-int main() { return 0; }
+Consumer::Consumer(AsyncQueue &q) { this->q = q; }
+
+void Consumer::run() {
+  q.get([&](int n) { run(n); });
+}
+
+void Consumer::run(int item) {
+  if (item != 0) {
+    std::cout << "Consuming :" << item;
+    scheduler.callSoon({[=]() { run(); }});
+  }
+}
