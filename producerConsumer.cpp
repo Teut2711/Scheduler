@@ -40,7 +40,7 @@ void Producer::run(int n) {
 Consumer::Consumer(AsyncQueue &q) { this->q = q; }
 
 void Consumer::run() {
-  q.get([&](int n) { run(n); });
+  q.get([](int n) { run(n); });
 }
 
 void Consumer::run(int item) {

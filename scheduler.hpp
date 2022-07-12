@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 
-
 using Task = std::function<void()>;
 
 class ScheduledTask {
