@@ -1,3 +1,2 @@
 # Scheduler
-
-An async schedular to schedule events through the use of a queue.
+Code to show design of a threadsafe queue
